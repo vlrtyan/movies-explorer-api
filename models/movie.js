@@ -53,7 +53,7 @@ const movieSchema = new mongoose.Schema({
     required: true,
   },
   movieId: {
-    type: mongoose.ObjectId,
+    type: String,
     required: true,
   },
   nameRU: {
@@ -64,6 +64,6 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+}, { versionKey: false });
 
 module.exports = mongoose.model('movie', movieSchema);

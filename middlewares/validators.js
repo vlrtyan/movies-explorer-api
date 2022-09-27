@@ -1,28 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
 const validator = require('validator');
-const { ObjectId } = require('mongoose').Types;
-
-module.exports.validateObjId = celebrate({
-  params: Joi.object().keys({
-    id: Joi.string().required().custom((value, helpers) => {
-      if (ObjectId.isValid(value)) {
-        return value;
-      }
-      return helpers.message('Невалидный id');
-    }),
-  }),
-});
-
-module.exports.validateCardId = celebrate({
-  params: Joi.object().keys({
-    cardId: Joi.string().required().custom((value, helpers) => {
-      if (ObjectId.isValid(value)) {
-        return value;
-      }
-      return helpers.message('Невалидный id');
-    }),
-  }),
-});
 
 module.exports.validateUserBody = celebrate({
   body: Joi.object().keys({
@@ -98,6 +75,10 @@ module.exports.validateMovieBody = celebrate({
         'string.required': 'поле должно быть заполнено',
       }),
     nameEN: Joi.string().required()
+      .messages({
+        'string.required': 'поле должно быть заполнено',
+      }),
+    movieId: Joi.string().required()
       .messages({
         'string.required': 'поле должно быть заполнено',
       }),

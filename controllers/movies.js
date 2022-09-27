@@ -1,23 +1,47 @@
-/* eslint-disable no-new */
 const Movies = require('../models/movie');
 const ErrorNotFound = require('../errors/ErrorNotFound');
 const ValidationError = require('../errors/ValidationError');
 const ForbiddenError = require('../errors/ForbiddenError');
 
 module.exports.getMovies = (req, res, next) => {
-  Movies.find({})
-    .then((movies) => res.status(200).send({ data: movies }))
+  Movies.find({ owner: req.user._id })
+    .then((movie) => {
+      if (!req.user._id) {
+        next(new ErrorNotFound('Фильмы не найдены'));
+      } else {
+        res.send(movie);
+      }
+    })
     .catch((err) => next(err));
 };
 
 module.exports.createMovie = (req, res, next) => {
   const {
-    // eslint-disable-next-line max-len
-    country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
   } = req.body;
   Movies.create({
-    // eslint-disable-next-line max-len
-    country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId, owner: req.user._id,
+    country,
+    director,
+    duration,
+    year,
+    description,
+    image,
+    trailer,
+    nameRU,
+    nameEN,
+    thumbnail,
+    movieId,
+    owner: req.user._id,
   })
     .then((movie) => res.status(200).send({ data: movie }))
     .catch((err) => {
@@ -29,14 +53,14 @@ module.exports.createMovie = (req, res, next) => {
     });
 };
 
-module.exports.deleteCard = (req, res, next) => {
+module.exports.deleteMovie = (req, res, next) => {
   Movies.findById(req.params.movieId)
     .orFail(() => {
-      throw new ErrorNotFound('Карточка не найдена');
+      throw new ErrorNotFound('Фильм не найден');
     })
     .then((movie) => {
       if (movie.owner.toString() !== req.user._id) {
-        return next(new ForbiddenError('Нельзя удалить чужую карточку'));
+        return next(new ForbiddenError('Нельзя удалить чужой фильм'));
       }
       return movie.remove()
         .then(() => res.status(200).send({ data: movie }));
