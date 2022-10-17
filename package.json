@@ -19,8 +19,7 @@
   },
   "homepage": "https://github.com/vlrtyan/movies-explorer-api#readme",
   "devDependencies": {
-    "eslint": "^8.24.0",
-    "eslint-plugin-react": "^7.31.8"
+    "eslint": "^8.24.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

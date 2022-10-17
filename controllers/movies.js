@@ -43,7 +43,7 @@ module.exports.createMovie = (req, res, next) => {
     movieId,
     owner: req.user._id,
   })
-    .then((movie) => res.status(200).send({ data: movie }))
+    .then((movie) => res.status.send({ data: movie }))
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Переданы некорректные данные'));
@@ -63,7 +63,7 @@ module.exports.deleteMovie = (req, res, next) => {
         return next(new ForbiddenError('Нельзя удалить чужой фильм'));
       }
       return movie.remove()
-        .then(() => res.status(200).send({ data: movie }));
+        .then(() => res.status.send({ data: movie }));
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
