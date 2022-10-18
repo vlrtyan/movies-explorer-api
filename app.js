@@ -14,6 +14,7 @@ const { MONGO_URL, PORT } = require('./config');
 const router = require('./routes/index');
 
 const app = express();
+app.use(helmet());
 
 app.use(helmet());
 
