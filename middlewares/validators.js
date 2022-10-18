@@ -3,10 +3,11 @@ const validator = require('validator');
 
 module.exports.validateUserBody = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30)
+    name: Joi.string().required().min(2).max(30)
       .messages({
         'string.min': 'минимальная длина поля - 2 символа',
         'string.max': 'максимальная длина поля - 30 символов',
+        'string.required': 'поле должно быть заполнено',
       }),
     email: Joi.string().required().email()
       .messages({
@@ -87,14 +88,16 @@ module.exports.validateMovieBody = celebrate({
 
 module.exports.validateUserUpdate = celebrate({
   body: Joi.object().keys({
-    name: Joi.string().min(2).max(30)
+    name: Joi.string().required().min(2).max(30)
       .messages({
         'string.min': 'минимальная длина поля - 2 символа',
         'string.max': 'максимальная длина поля - 30 символов',
+        'string.required': 'поле должно быть заполнено',
       }),
-    email: Joi.string().email()
+    email: Joi.string().required().email()
       .messages({
         'string.email': 'поле должно содержать email',
+        'string.required': 'поле должно быть заполнено',
       }),
   }),
 });
@@ -111,5 +114,11 @@ module.exports.validateAuthentification = celebrate({
         'string.min': 'минимальная длина пароля - 6 символа',
         'string.required': 'поле должно быть заполнено',
       }),
+  }),
+});
+
+module.exports.validateMovieDeletion = celebrate({
+  params: Joi.object().keys({
+    movieId: Joi.string().hex().length(24),
   }),
 });

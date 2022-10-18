@@ -34,7 +34,10 @@ module.exports.updateUser = (req, res, next) => {
     })
     .then((user) => res.send({ data: user }))
     .catch((err) => {
-      if (err.name === 'CastError' || err.name === 'ValidationError') {
+      if (err.code === MONGO_DUPLICATE_ERROR_CODE) {
+        next(new ConflictError('E-mail занят'));
+      } else if
+        (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Переданы некорректные данные'));
       } else {
         next(err);
