@@ -15,7 +15,7 @@ module.exports.getUser = (req, res, next) => {
       throw new ErrorNotFound('Пользователь не найден');
     })
     .then((user) => {
-      res.status.send({ data: user });
+      res.send({ data: user });
     })
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
@@ -32,7 +32,7 @@ module.exports.updateUser = (req, res, next) => {
     .orFail(() => {
       throw new ErrorNotFound('Пользователь не найден');
     })
-    .then((user) => res.status.send({ data: user }))
+    .then((user) => res.send({ data: user }))
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         next(new ValidationError('Переданы некорректные данные'));
@@ -57,7 +57,7 @@ module.exports.createUser = (req, res, next) => {
             name, about, avatar, email, password: hash,
           })
             .then((newUser) => Users.findOne({ _id: newUser._id }))
-            .then((newUser) => res.status.send({ data: newUser })));
+            .then((newUser) => res.send({ data: newUser })));
       }
     })
     .catch((err) => {
@@ -88,7 +88,7 @@ module.exports.login = (req, res, next) => {
           );
         })
         .then((token) => {
-          res.status.send({ token });
+          res.send({ token });
         });
     })
     .catch((err) => {

@@ -78,9 +78,9 @@ module.exports.validateMovieBody = celebrate({
       .messages({
         'string.required': 'поле должно быть заполнено',
       }),
-    movieId: Joi.string().required()
+    movieId: Joi.number().required()
       .messages({
-        'string.required': 'поле должно быть заполнено',
+        'number.required': 'поле должно быть заполнено',
       }),
   }),
 });
@@ -92,10 +92,9 @@ module.exports.validateUserUpdate = celebrate({
         'string.min': 'минимальная длина поля - 2 символа',
         'string.max': 'максимальная длина поля - 30 символов',
       }),
-    email: Joi.string().required().email()
+    email: Joi.string().email()
       .messages({
         'string.email': 'поле должно содержать email',
-        'string.required': 'поле должно быть заполнено',
       }),
   }),
 });
